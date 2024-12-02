@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest ]
-        day: [ day01 ]
+        day: [ day01, day02 ]
     runs-on: ${{matrix.os}}
     steps:
       - uses: actions/checkout@v4
