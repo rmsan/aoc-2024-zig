@@ -8,9 +8,11 @@ pub fn main() !void {
 
     var timer = try std.time.Timer.start();
     const part1 = try solvePart1(fileContent, &allocator);
+    const part1Time = timer.lap() / std.time.ns_per_us;
     const part2 = try solvePart2(fileContent, &allocator);
+    const part2Time = timer.lap() / std.time.ns_per_us;
 
-    std.debug.print("Part1: {d}\nPart2: {d}\nTime: {d}us\n", .{ part1, part2, timer.lap() / std.time.ns_per_us });
+    std.debug.print("Part1: {d}\nPart2: {d}\nTime1: {d}us\nTime2: {d}us\n", .{ part1, part2, part1Time, part2Time });
 }
 
 fn solvePart1(input: []const u8, allocator: *std.mem.Allocator) !usize {
@@ -35,13 +37,9 @@ fn solvePart1(input: []const u8, allocator: *std.mem.Allocator) !usize {
     }
     std.mem.sortUnstable(u32, left.items, {}, std.sort.asc(u32));
     std.mem.sortUnstable(u32, right.items, {}, std.sort.asc(u32));
-    const leftItems = try left.toOwnedSlice();
-    const rightItems = try right.toOwnedSlice();
-    defer allocator.free(leftItems);
-    defer allocator.free(rightItems);
 
-    for (leftItems, 0..) |leftItem, index| {
-        const rightItem = rightItems[index];
+    for (left.items, 0..) |leftItem, index| {
+        const rightItem = right.items[index];
         if (rightItem > leftItem) {
             result += rightItem - leftItem;
         } else {
@@ -72,10 +70,7 @@ fn solvePart2(input: []const u8, allocator: *std.mem.Allocator) !usize {
         }
     }
 
-    const leftItems = try left.toOwnedSlice();
-    defer allocator.free(leftItems);
-
-    for (leftItems) |leftItem| {
+    for (left.items) |leftItem| {
         result += leftItem * bag[leftItem];
     }
 
