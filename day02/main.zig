@@ -58,7 +58,7 @@ fn solvePart1(input: []const u8) !usize {
     var lines = std.mem.tokenizeScalar(u8, input, '\n');
     while (lines.next()) |line| {
         var elements = std.mem.tokenizeScalar(u8, line, ' ');
-        var numbers: [8]u8 = [_]u8{0} ** 8;
+        var numbers = std.mem.zeroes([8]u8);
         var index: usize = 0;
         while (elements.next()) |element| {
             const number = try std.fmt.parseInt(u8, element, 10);
@@ -78,7 +78,7 @@ fn solvePart2(input: []const u8) !usize {
     var lines = std.mem.tokenizeScalar(u8, input, '\n');
     while (lines.next()) |line| {
         var elements = std.mem.tokenizeScalar(u8, line, ' ');
-        var numbers: [8]u8 = [_]u8{0} ** 8;
+        var numbers = std.mem.zeroes([8]u8);
         var index: usize = 0;
         while (elements.next()) |element| {
             const number = try std.fmt.parseInt(u8, element, 10);

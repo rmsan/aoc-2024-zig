@@ -53,7 +53,7 @@ fn solvePart1(input: []const u8, allocator: *std.mem.Allocator) !usize {
 fn solvePart2(input: []const u8, allocator: *std.mem.Allocator) !usize {
     var result: usize = 0;
     var left = try std.ArrayList(u32).initCapacity(allocator.*, 1000);
-    var bag: [99_999]u8 = [_]u8{0} ** 99_999;
+    var bag = std.mem.zeroes([99_999]u8);
     defer left.deinit();
     var lines = std.mem.tokenizeScalar(u8, input, '\n');
     while (lines.next()) |line| {
