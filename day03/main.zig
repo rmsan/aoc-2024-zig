@@ -35,7 +35,7 @@ fn solvePart1(input: []const u8) !usize {
 
 fn solvePart2(input: []const u8) !usize {
     var result: usize = 0;
-    const regex = mvzr.compile("do\\(|don\\'t\\(|mul\\(\\d{1,3}\\,\\d{1,3}\\)").?;
+    const regex = mvzr.compile("do(n\\'t)?\\(|mul\\(\\d{1,3}\\,\\d{1,3}\\)").?;
     var elements = regex.iterator(input);
     var do = true;
     while (elements.next()) |element| {
