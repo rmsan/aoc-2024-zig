@@ -1,9 +1,9 @@
 const std = @import("std");
 
 pub fn main() !void {
-    var gpa = std.heap.ArenaAllocator.init(std.heap.page_allocator);
-    defer gpa.deinit();
-    var allocator = gpa.allocator();
+    var arenaAllocator = std.heap.ArenaAllocator.init(std.heap.page_allocator);
+    defer arenaAllocator.deinit();
+    var allocator = arenaAllocator.allocator();
     const fileContent = @embedFile("input.txt");
 
     var timer = try std.time.Timer.start();
