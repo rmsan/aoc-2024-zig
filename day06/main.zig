@@ -43,6 +43,7 @@ fn solvePart1(input: []const u8, allocator: *std.mem.Allocator) !usize {
         for (row, 0..) |_, colIndex| {
             if (row[colIndex] == '^') {
                 start = [_]usize{ rowIndex, colIndex };
+                break;
             }
         }
     }
