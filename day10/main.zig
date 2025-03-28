@@ -34,7 +34,7 @@ fn check(comptime part: Part, grid: *const [][]const u8, origin: [2]i8, allocato
     defer coordStack.deinit();
 
     coordStack.appendAssumeCapacity(origin);
-    while (coordStack.popOrNull()) |coord| {
+    while (coordStack.pop()) |coord| {
         switch (part) {
             .Part1 => {
                 if (coordSet.contains(coord)) {
