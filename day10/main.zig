@@ -18,7 +18,7 @@ pub fn main() !void {
 const Part = enum { Part1, Part2 };
 
 fn getGrid(input: []const u8, allocator: *std.mem.Allocator) ![][]const u8 {
-    var grid = try std.ArrayList([]const u8).initCapacity(allocator.*, 42);
+    var grid = try std.array_list.Managed([]const u8).initCapacity(allocator.*, 42);
     var lines = std.mem.tokenizeScalar(u8, input, '\n');
     while (lines.next()) |line| {
         grid.appendAssumeCapacity(line);
@@ -29,7 +29,7 @@ fn getGrid(input: []const u8, allocator: *std.mem.Allocator) ![][]const u8 {
 fn check(comptime part: Part, grid: *const [][]const u8, origin: [2]i8, allocator: *std.mem.Allocator) !usize {
     var score: usize = 0;
     var coordSet = std.AutoHashMap([2]i8, void).init(allocator.*);
-    var coordStack = try std.ArrayList([2]i8).initCapacity(allocator.*, 9);
+    var coordStack = try std.array_list.Managed([2]i8).initCapacity(allocator.*, 9);
     defer coordSet.deinit();
     defer coordStack.deinit();
 
@@ -69,7 +69,7 @@ fn neighbors(grid: *const [][]const u8, origin: [2]i8, allocator: *std.mem.Alloc
     const x: usize = @intCast(origin[0]);
     const y: usize = @intCast(origin[1]);
     const currentHeight = grid.*[x][y];
-    var neighborList = try std.ArrayList([2]i8).initCapacity(allocator.*, 4);
+    var neighborList = try std.array_list.Managed([2]i8).initCapacity(allocator.*, 4);
 
     const directions: [4][2]i8 = [_][2]i8{
         [_]i8{ 0, 1 },

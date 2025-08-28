@@ -22,7 +22,7 @@ inline fn digits(number: usize) usize {
 }
 
 // return index of an already seen number, otherwise process it next blink
-fn indexOf(number: usize, indices: *std.AutoHashMap(usize, usize), todo: *std.ArrayList(usize)) !usize {
+fn indexOf(number: usize, indices: *std.AutoHashMap(usize, usize), todo: *std.array_list.Managed(usize)) !usize {
     const size = indices.*.count();
 
     const entry = try indices.*.getOrPut(number);
@@ -37,10 +37,10 @@ fn indexOf(number: usize, indices: *std.AutoHashMap(usize, usize), todo: *std.Ar
 
 fn solve(comptime part: Part, input: []const u8, allocator: *std.mem.Allocator) !usize {
     var result: usize = 0;
-    var stones = try std.ArrayList([2]?usize).initCapacity(allocator.*, 5000);
+    var stones = try std.array_list.Managed([2]?usize).initCapacity(allocator.*, 5000);
     var indices = std.AutoHashMap(usize, usize).init(allocator.*);
-    var newStones = try std.ArrayList(usize).initCapacity(allocator.*, 8);
-    var stonesAmount = try std.ArrayList(usize).initCapacity(allocator.*, 8);
+    var newStones = try std.array_list.Managed(usize).initCapacity(allocator.*, 8);
+    var stonesAmount = try std.array_list.Managed(usize).initCapacity(allocator.*, 8);
 
     defer stones.deinit();
     defer indices.deinit();
@@ -63,11 +63,11 @@ fn solve(comptime part: Part, input: []const u8, allocator: *std.mem.Allocator) 
 
     for (0..iterations) |_| {
         const numbers = newStones;
-        newStones = try std.ArrayList(usize).initCapacity(allocator.*, 200);
+        newStones = try std.array_list.Managed(usize).initCapacity(allocator.*, 200);
 
         for (numbers.items) |number| {
             if (number == 0) {
-                const toAdd = [2]?usize{ try indexOf(1, &indices, &newStones), undefined };
+                const toAdd = [2]?usize{ try indexOf(1, &indices, &newStones), null };
                 stones.appendAssumeCapacity(toAdd);
                 continue;
             }
@@ -81,12 +81,12 @@ fn solve(comptime part: Part, input: []const u8, allocator: *std.mem.Allocator) 
                 continue;
             }
 
-            const toAdd = [2]?usize{ try indexOf(number * 2024, &indices, &newStones), undefined };
+            const toAdd = [2]?usize{ try indexOf(number * 2024, &indices, &newStones), null };
             stones.appendAssumeCapacity(toAdd);
         }
 
         const indicesSize = indices.count();
-        var next = try std.ArrayList(usize).initCapacity(allocator.*, indicesSize);
+        var next = try std.array_list.Managed(usize).initCapacity(allocator.*, indicesSize);
         for (0..indicesSize) |_| {
             next.appendAssumeCapacity(0);
         }

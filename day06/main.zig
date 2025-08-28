@@ -15,8 +15,8 @@ pub fn main() !void {
     std.debug.print("Part1: {d}\nPart2: {d}\nTime1: {d}us\nTime2: {d}ms\n", .{ part1, part2, part1Time, part2Time });
 }
 
-fn getGridList(input: []const u8, allocator: *std.mem.Allocator) !std.ArrayList([]u8) {
-    var grid = try std.ArrayList([]u8).initCapacity(allocator.*, 130);
+fn getGridList(input: []const u8, allocator: *std.mem.Allocator) !std.array_list.Managed([]u8) {
+    var grid = try std.array_list.Managed([]u8).initCapacity(allocator.*, 130);
     var lines = std.mem.tokenizeScalar(u8, input, '\n');
     while (lines.next()) |line| {
         const mutLine = try allocator.alloc(u8, line.len);
@@ -88,7 +88,7 @@ fn solvePart2(input: []const u8, allocator: *std.mem.Allocator) !usize {
 
     patrol(&grid, start, size);
 
-    var visitedList = try std.ArrayList([2]usize).initCapacity(allocator.*, 6000);
+    var visitedList = try std.array_list.Managed([2]usize).initCapacity(allocator.*, 6000);
     defer visitedList.deinit();
     for (grid.items, 0..) |row, rowIndex| {
         for (row, 0..) |col, colIndex| {
@@ -112,7 +112,7 @@ fn solvePart2(input: []const u8, allocator: *std.mem.Allocator) !usize {
     return result;
 }
 
-fn patrol(grid: *std.ArrayList([]u8), start: [2]usize, size: usize) void {
+fn patrol(grid: *std.array_list.Managed([]u8), start: [2]usize, size: usize) void {
     var steps: usize = 0;
     var dir: usize = 0;
     var x = start[0];
@@ -153,7 +153,7 @@ fn patrol(grid: *std.ArrayList([]u8), start: [2]usize, size: usize) void {
     }
 }
 
-fn checkLoop(grid: *std.ArrayList([]u8), start: [2]usize, size: usize) bool {
+fn checkLoop(grid: *std.array_list.Managed([]u8), start: [2]usize, size: usize) bool {
     var steps: usize = 0;
     var dir: usize = 0;
     var x = start[0];

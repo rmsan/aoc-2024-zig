@@ -81,10 +81,10 @@ fn solvePart2(comptime boardSizes: [2]isize, input: []const u8, allocator: *std.
     const boardWidth = boardSizes[0];
     const boardHeight = boardSizes[1];
 
-    var positionListX = try std.ArrayList(i8).initCapacity(allocator.*, 500);
-    var positionListY = try std.ArrayList(i8).initCapacity(allocator.*, 500);
-    var velocityListX = try std.ArrayList(i8).initCapacity(allocator.*, 500);
-    var velocityListY = try std.ArrayList(i8).initCapacity(allocator.*, 500);
+    var positionListX = try std.array_list.Managed(i8).initCapacity(allocator.*, 500);
+    var positionListY = try std.array_list.Managed(i8).initCapacity(allocator.*, 500);
+    var velocityListX = try std.array_list.Managed(i8).initCapacity(allocator.*, 500);
+    var velocityListY = try std.array_list.Managed(i8).initCapacity(allocator.*, 500);
 
     defer {
         positionListX.deinit();
@@ -125,7 +125,7 @@ fn solvePart2(comptime boardSizes: [2]isize, input: []const u8, allocator: *std.
     return @intCast(t);
 }
 
-fn clustered(positionList: *std.ArrayList(i8), velocityList: *std.ArrayList(i8), comptime mod: isize) isize {
+fn clustered(positionList: *std.array_list.Managed(i8), velocityList: *std.array_list.Managed(i8), comptime mod: isize) isize {
     const robots: isize = @intCast(positionList.items.len);
     var tMin: isize = -1;
     var varianceMin: isize = std.math.maxInt(isize);

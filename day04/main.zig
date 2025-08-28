@@ -18,7 +18,7 @@ pub fn main() !void {
 var gridSize: usize = 0;
 
 fn getGrid(input: []const u8, allocator: *std.mem.Allocator) ![][]const u8 {
-    var grid = try std.ArrayList([]const u8).initCapacity(allocator.*, 140);
+    var grid = try std.array_list.Managed([]const u8).initCapacity(allocator.*, 140);
     var lines = std.mem.tokenizeScalar(u8, input, '\n');
     while (lines.next()) |line| {
         grid.appendAssumeCapacity(line);

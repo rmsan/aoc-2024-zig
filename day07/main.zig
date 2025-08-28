@@ -77,7 +77,7 @@ fn solvePart1(input: []const u8, allocator: *std.mem.Allocator) !usize {
         const toTest = try std.fmt.parseInt(usize, toTestString, 10);
         const testeesString = elements.next().?;
         var testees = std.mem.tokenizeScalar(u8, testeesString, ' ');
-        var testeeList = try std.ArrayList(usize).initCapacity(allocator.*, 12);
+        var testeeList = try std.array_list.Managed(usize).initCapacity(allocator.*, 12);
         defer testeeList.deinit();
         while (testees.next()) |testee| {
             const testeeNumber = try std.fmt.parseInt(usize, testee, 10);
@@ -100,7 +100,7 @@ fn solvePart2(input: []const u8, allocator: *std.mem.Allocator) !usize {
         const toTest = try std.fmt.parseInt(usize, toTestString, 10);
         const testeesString = elements.next().?;
         var testees = std.mem.tokenizeScalar(u8, testeesString, ' ');
-        var testeeList = try std.ArrayList(usize).initCapacity(allocator.*, 12);
+        var testeeList = try std.array_list.Managed(usize).initCapacity(allocator.*, 12);
         defer testeeList.deinit();
         while (testees.next()) |testee| {
             const testeeNumber = try std.fmt.parseInt(usize, testee, 10);

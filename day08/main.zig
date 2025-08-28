@@ -22,13 +22,13 @@ const Cell = struct {
 };
 
 const GridAndMap = struct {
-    grid: std.ArrayList([]u8),
-    map: std.AutoHashMap(u8, std.ArrayList([2]i32)),
+    grid: std.array_list.Managed([]u8),
+    map: std.AutoHashMap(u8, std.array_list.Managed([2]i32)),
 };
 
 fn getGridAndMap(input: []const u8, allocator: *std.mem.Allocator) !GridAndMap {
-    var grid = try std.ArrayList([]u8).initCapacity(allocator.*, 50);
-    var antennaMap = std.AutoHashMap(u8, std.ArrayList([2]i32)).init(allocator.*);
+    var grid = try std.array_list.Managed([]u8).initCapacity(allocator.*, 50);
+    var antennaMap = std.AutoHashMap(u8, std.array_list.Managed([2]i32)).init(allocator.*);
     var lines = std.mem.tokenizeScalar(u8, input, '\n');
     var x: usize = 0;
     while (lines.next()) |line| : (x += 1) {
@@ -42,7 +42,7 @@ fn getGridAndMap(input: []const u8, allocator: *std.mem.Allocator) !GridAndMap {
             }
             const entry = try antennaMap.getOrPut(character);
             if (!entry.found_existing) {
-                entry.value_ptr.* = std.ArrayList([2]i32).init(allocator.*);
+                entry.value_ptr.* = std.array_list.Managed([2]i32).init(allocator.*);
             }
 
             try entry.value_ptr.*.append([2]i32{ @intCast(x), @intCast(colIndex) });
@@ -53,10 +53,10 @@ fn getGridAndMap(input: []const u8, allocator: *std.mem.Allocator) !GridAndMap {
 }
 
 fn getGrid(input: []const u8, allocator: *std.mem.Allocator) ![][]Cell {
-    var grid = try std.ArrayList([]Cell).initCapacity(allocator.*, 50);
+    var grid = try std.array_list.Managed([]Cell).initCapacity(allocator.*, 50);
     var lines = std.mem.tokenizeScalar(u8, input, '\n');
     while (lines.next()) |line| {
-        var lineList = try std.ArrayList(Cell).initCapacity(allocator.*, 50);
+        var lineList = try std.array_list.Managed(Cell).initCapacity(allocator.*, 50);
         for (line) |character| {
             const cell = Cell{
                 .symbol = character,

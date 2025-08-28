@@ -17,8 +17,8 @@ pub fn main() !void {
 
 fn solvePart1(input: []const u8, allocator: *std.mem.Allocator) !usize {
     var result: usize = 0;
-    var left = try std.ArrayList(u32).initCapacity(allocator.*, 1000);
-    var right = try std.ArrayList(u32).initCapacity(allocator.*, 1000);
+    var left = try std.array_list.Managed(u32).initCapacity(allocator.*, 1000);
+    var right = try std.array_list.Managed(u32).initCapacity(allocator.*, 1000);
     defer left.deinit();
     defer right.deinit();
     var lines = std.mem.tokenizeScalar(u8, input, '\n');
@@ -52,7 +52,7 @@ fn solvePart1(input: []const u8, allocator: *std.mem.Allocator) !usize {
 
 fn solvePart2(input: []const u8, allocator: *std.mem.Allocator) !usize {
     var result: usize = 0;
-    var left = try std.ArrayList(u32).initCapacity(allocator.*, 1000);
+    var left = try std.array_list.Managed(u32).initCapacity(allocator.*, 1000);
     var bag = std.mem.zeroes([99_999]u8);
     defer left.deinit();
     var lines = std.mem.tokenizeScalar(u8, input, '\n');

@@ -2076,7 +2076,7 @@ fn printPatternInternal(patt: []const RegOp) ?u8 {
 
 fn printCharSet(set: CharSet) !void {
     const allocator = std.testing.allocator;
-    var set_str = try std.ArrayList(u8).initCapacity(allocator, @popCount(set.low) + @popCount(set.hi) + 1);
+    var set_str = try std.array_list.Managed(u8).initCapacity(allocator, @popCount(set.low) + @popCount(set.hi) + 1);
     defer set_str.deinit();
     if (@popCount(set.low) != 0) {
         for (0..64) |i| {

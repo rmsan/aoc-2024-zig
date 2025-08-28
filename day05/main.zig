@@ -49,16 +49,16 @@ fn solvePart1(input: []const u8, allocator: *std.mem.Allocator) !usize {
         }
     }
 
-    var updateList = try std.ArrayList(std.ArrayList(u8)).initCapacity(allocator.*, 250);
+    var updateList = try std.array_list.Managed(std.array_list.Managed(u8)).initCapacity(allocator.*, 250);
     defer {
-        const innerListArray: []std.ArrayList(u8) = updateList.items;
+        const innerListArray: []std.array_list.Managed(u8) = updateList.items;
         for (innerListArray) |innerList| {
             innerList.deinit();
         }
         updateList.deinit();
     }
     while (updatesIterator.next()) |updateSegment| {
-        var updateInnerList = try std.ArrayList(u8).initCapacity(allocator.*, 25);
+        var updateInnerList = try std.array_list.Managed(u8).initCapacity(allocator.*, 25);
         var numbers = std.mem.tokenizeScalar(u8, updateSegment, ',');
         while (numbers.next()) |numberString| {
             const number = try std.fmt.parseInt(u8, numberString, 10);
@@ -113,16 +113,16 @@ fn solvePart2(input: []const u8, allocator: *std.mem.Allocator) !usize {
         }
     }
 
-    var updateList = try std.ArrayList(std.ArrayList(u8)).initCapacity(allocator.*, 250);
+    var updateList = try std.array_list.Managed(std.array_list.Managed(u8)).initCapacity(allocator.*, 250);
     defer {
-        const innerListArray: []std.ArrayList(u8) = updateList.items;
+        const innerListArray: []std.array_list.Managed(u8) = updateList.items;
         for (innerListArray) |innerList| {
             innerList.deinit();
         }
         updateList.deinit();
     }
     while (updatesIterator.next()) |updateSegment| {
-        var updateInnerList = try std.ArrayList(u8).initCapacity(allocator.*, 25);
+        var updateInnerList = try std.array_list.Managed(u8).initCapacity(allocator.*, 25);
         var numbers = std.mem.tokenizeScalar(u8, updateSegment, ',');
         while (numbers.next()) |numberString| {
             const number = try std.fmt.parseInt(u8, numberString, 10);

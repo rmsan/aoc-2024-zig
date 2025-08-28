@@ -33,7 +33,7 @@ const Space = struct {
 
 fn solvePart1(input: []const u8, allocator: *std.mem.Allocator) !usize {
     var result: usize = 0;
-    var blockList = try std.ArrayList(Block).initCapacity(allocator.*, 20_000);
+    var blockList = try std.array_list.Managed(Block).initCapacity(allocator.*, 20_000);
     defer blockList.deinit();
     const inputSize = input.len;
     var i: usize = 0;
@@ -123,7 +123,7 @@ fn solvePart1(input: []const u8, allocator: *std.mem.Allocator) !usize {
 
 fn solvePart2(input: []const u8, allocator: *std.mem.Allocator) !usize {
     var result: usize = 0;
-    var blockList = try std.ArrayList(Block).initCapacity(allocator.*, 20_000);
+    var blockList = try std.array_list.Managed(Block).initCapacity(allocator.*, 20_000);
     defer blockList.deinit();
     const inputSize = input.len;
     var i: usize = 0;
@@ -144,8 +144,8 @@ fn solvePart2(input: []const u8, allocator: *std.mem.Allocator) !usize {
     }
 
     var offset: usize = 0;
-    var fileList = try std.ArrayList(File).initCapacity(allocator.*, 10_000);
-    var spaceList = try std.ArrayList(Space).initCapacity(allocator.*, 10_000);
+    var fileList = try std.array_list.Managed(File).initCapacity(allocator.*, 10_000);
+    var spaceList = try std.array_list.Managed(Space).initCapacity(allocator.*, 10_000);
     defer {
         fileList.deinit();
         spaceList.deinit();
